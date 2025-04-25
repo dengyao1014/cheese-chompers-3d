@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化游戏
     function initGame() {
         // 游戏已经通过iframe加载，不需要显示开始准备信息
-        startButton.addEventListener('click', startGame);
-        pauseButton.addEventListener('click', togglePause);
-        pauseButton.disabled = true; // 游戏开始前禁用暂停按钮
+        startButton && startButton.addEventListener('click', startGame);
+        pauseButton && pauseButton.addEventListener('click', togglePause);
+        pauseButton && (pauseButton.disabled = true); // 游戏开始前禁用暂停按钮
     }
     
     // 开始游戏
@@ -95,7 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function updateScore() {
-        scoreDisplay.textContent = score;
+        if (scoreDisplay) {
+            scoreDisplay.textContent = score;
+        }
     }
     
     // 重置游戏
@@ -142,4 +144,26 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         reset: resetGame
     };
+    
+    // 回到顶部按钮功能
+    const backToTopButton = document.getElementById('back-to-top');
+    
+    // 当滚动超过300px时显示按钮
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('visible');
+        } else {
+            backToTopButton.classList.remove('visible');
+        }
+    });
+    
+    // 点击按钮回到顶部
+    backToTopButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        // 平滑滚动回顶部
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 }); 
